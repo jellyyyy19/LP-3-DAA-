@@ -1,0 +1,83 @@
+#include <iostream>
+using namespace std;
+
+bool isattack(int board[][4], int r, int c) {
+    for (int i = 0; i < r; ++i) {
+        if (board[i][c] == 1) {
+            return true;
+        }
+    }
+
+    int i = r - 1;
+    int j = c - 1;
+    while (i >= 0 && j >= 0) {
+        if (board[i][j] == 1) {
+            return true;
+        }
+        --i;
+        --j;
+    }
+
+    i = r - 1;
+    j = c + 1;
+    while (i >= 0 && j < 4) {
+        if (board[i][j] == 1) {
+            return true;
+        }
+        --i;
+        ++j;
+    }
+
+    return false;
+}
+
+bool solve(int board[][4], int row) {
+    for (int i = 0; i < 4; ++i) {
+        if (!isattack(board, row, i)) {
+            board[row][i] = 1;
+            if (row == 3) {
+                return true;
+            } else {
+                if (solve(board, row + 1)) {
+                    return true;
+                } else {
+                    board[row][i] = 0;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void printboard(int board[][4]) {
+    for (int i = 0; i < 4; ++i) {
+        for (int j = 0; j < 4; ++j) {
+            cout << board[i][j] << "  ";
+        }
+        cout << "\n";
+    }
+}
+
+int main() {
+    int board[4][4] = {0};
+    int start_column;
+
+    cout << "Enter the starting column for the first queen (0-3): ";
+    cin >> start_column;
+
+    if (start_column < 0 || start_column > 3) {
+        cout << "Invalid input" << endl;
+        return 1;
+    }
+
+    board[0][start_column] = 1;
+    if (solve(board, 1)) {
+        cout << "Queens problem solved!!!" << endl;
+        cout << "Board Configuration:" << endl;
+        printboard(board);
+    } else {
+        cout << "Queens problem can not be solved!!!" << endl;
+    }
+
+    return 0;
+}

@@ -1,0 +1,55 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct Item {
+    int profit;
+    int weight;
+};
+
+void knapsack(int W, vector<Item>& items, int n) {
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+
+    for (int i = 1; i <= n; i++) {
+        for (int w = 0; w <= W; w++) {
+            if (items[i - 1].weight <= w) {
+                dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - items[i - 1].weight] + items[i - 1].profit);
+            } else {
+                dp[i][w] = dp[i - 1][w];
+            }
+        }
+    }
+
+    int w = W;
+    for (int i = n; i > 0; i--) {
+        if (dp[i][w] != dp[i - 1][w]) {
+            cout << "\nSelected item " << i << " "<<endl;
+            w -= items[i - 1].weight;
+        }
+    }
+    cout << endl;
+
+    cout << "The maximum value that can be obtained is: " << dp[n][W] << endl;
+}
+
+int main() {
+    int W, n;
+    cout << "Enter bag weight: " << endl;
+    cin >> W;
+    cout << "Enter the number of objects: " << endl;
+    cin >> n;
+
+    vector<Item> items;
+
+    for (int i = 0; i < n; i++) {
+        int profit, weight;
+        cout << "Enter profit " << i + 1 << ": " << endl;
+        cin >> profit;
+        cout << "Enter weight " << i + 1 << ": " << endl;
+        cin >> weight;
+        items.push_back({profit, weight});
+    }
+
+    knapsack(W, items, n);
+    return 0;
+}

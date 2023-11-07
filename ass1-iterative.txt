@@ -1,0 +1,31 @@
+#include <bits/stdc++.h>
+#include <chrono>
+using namespace std;
+using namespace std::chrono;
+int fib(long long n) {
+  long long a = 0, b = 1, c, i;
+  if (n == 0)
+    return a;
+  for (i = 2; i <= n; i++) {
+    c = a + b;
+    a = b;
+    b = c;
+  }
+  return b;
+}
+
+int main() {
+	auto start = high_resolution_clock::now();
+  long long n;
+  cout << "Enter number til you want to print:" << endl;
+  cin >> n;
+  cout << "Fibbonaci series is: ";
+  for (long long i = 0; i <= n; i++) {
+    cout << fib(i) << " ";
+  }
+  cout<<endl;
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop - start);
+	cout << "Time taken by function: "<< duration.count() << " microseconds" << endl;
+  return 0;
+}

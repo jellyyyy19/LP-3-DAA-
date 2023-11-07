@@ -1,0 +1,73 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Item {
+    public:
+    int profit, weight;
+    Item(int profit, int weight)
+    {
+        this->profit = profit;
+        this->weight = weight;
+    }
+};
+
+static bool cmp(Item a,Item b)
+{
+    double r1 = (double)a.profit / (double)a.weight;
+    double r2 = (double)b.profit / (double)b.weight;
+    return r1 > r2;
+}
+
+void fractionalKnapsack(int W, vector<Item> arr, int N)
+{
+    sort(arr.begin(), arr.end(), cmp);
+
+    cout << "Sorted Items (Profit/Weight Ratio):" << endl;
+    for (int i = 0; i < N; i++) {
+        cout << "Item " << i + 1 << ": Profit = " << arr[i].profit << ", Weight = " << arr[i].weight << ", Ratio = " << (double)arr[i].profit / arr[i].weight << endl;
+    }
+
+    double finalvalue = 0.0;
+
+    for (int i = 0; i < N; i++) {
+        if (arr[i].weight <= W) {
+            W -= arr[i].weight;
+            finalvalue += arr[i].profit;
+            cout << "Selected Item " << i + 1 << " fully." << endl;
+        }
+        else {
+            double fraction = (double)W / (double)arr[i].weight;
+            finalvalue += arr[i].profit * fraction;
+            cout << "Selected part of Item " << i + 1 << ": " << fraction << endl;
+            break;
+        }
+    }
+
+    cout << "Maximum value in knapsack: " << finalvalue<<endl;
+}
+
+int main()
+{
+    int W;
+    int n , a , b;
+	
+	cout<<"Enter bag weight: "<<endl;
+	cin>>W;   
+    cout<<"Enter the no of objects: "<<endl;
+    cin>>n;
+   
+    vector<Item> arr;
+   
+    for(int i=0;i<n;i++)
+    {
+        cout<<"Enter profit "<<i+1<<": "<<endl;
+        cin>>a;
+        cout<<"Enter weight "<<i+1<<": "<<endl;
+        cin>>b;
+        arr.push_back({a,b});
+    }
+   
+    // Item arr[] = { { 60, 10 }, { 100, 20 }, { 120, 30 } };
+    fractionalKnapsack(W, arr, n);
+    return 0;
+}

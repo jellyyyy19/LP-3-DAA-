@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+#include <chrono>
+using namespace std;
+using namespace std::chrono;
+int fib(long long int n) {
+  if (n <= 1)
+    return n;
+  return fib(n - 1) + fib(n - 2);
+}
+
+int main() {
+auto start = high_resolution_clock::now();
+long long int n;
+  cout << "Enter til what index you want to print fibbonaci series: " << endl;
+  cin >> n;
+  cout << "Fibbonaci series is: ";
+  for (long long int i = 0; i <= n; i++) {
+    cout << fib(i) << " ";
+  }
+  cout<<endl;
+  auto stop = high_resolution_clock::now();
+  auto duration = duration_cast<microseconds>(stop - start);
+	cout << "Time taken by function: "<< duration.count() << " microseconds" << endl;
+	return 0;
+}
