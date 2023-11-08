@@ -1,0 +1,60 @@
+import random
+import time
+
+def deterministic_quick_sort_last_pivot(arr):
+    if len(arr) <= 1:
+        return arr
+
+    pivot = arr[-1]  # Use the last element as the pivot
+    left=[]
+    right=[]
+    middle=[]
+    for x in arr:
+      if x < pivot:
+        left.append(x)
+      elif x == pivot:
+        middle.append(x)
+      else:
+        right.append(x)
+
+    return deterministic_quick_sort_last_pivot(left) + middle + deterministic_quick_sort_last_pivot(right)
+
+def randomized_quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    left=[]
+    right=[]
+    middle=[]
+    pivot = random.choice(arr)  # Choose the pivot randomly
+    for x in arr:
+      if x < pivot:
+        left.append(x)
+      elif x == pivot:
+        middle.append(x)
+      else:
+        right.append(x)
+
+    return randomized_quick_sort(left) + middle + randomized_quick_sort(right)
+
+
+def main():
+  n = int(input("Enter the number of elements: "))
+  arr = []
+  
+  for i in range(n):
+      element = int(input(f"Enter element {i + 1}: "))
+      arr.append(element)
+  
+  start_time = time.time()
+  deterministic_sorted = deterministic_quick_sort_last_pivot(arr)
+  end_time = time.time()
+  print("Deterministic Quick Sort (last element as pivot) result:", deterministic_sorted)
+  print(f"Time taken for deterministic quicksort: {end_time - start_time:.6f} seconds")
+  
+  start_time = time.time()
+  randomized_sorted = randomized_quick_sort(arr)
+  end_time = time.time()
+  print("Randomized Quick Sort (random pivot selection) result:", randomized_sorted)
+  print(f"Time taken for randomized quicksort: {end_time - start_time:.6f} seconds")
+  
+main()
